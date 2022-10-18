@@ -74,20 +74,24 @@
 </script>
 
 <style>
+  :root {
+    --base-font-size: min(35vh, 30vw)
+  }
+
   body {
     display: flex;
     text-align: center;
     justify-content: center;
     width: 100vw;
     height: 100vh;
-    font-size: 35vh;
+    font-size: var(--base-font-size);
     align-items: center;
   }
   #hours {
-    font-size: 70vh;
+    font-size: calc(var(--base-font-size) * 2);
   }
   #wort {
-    font-size: 12.5vh;
+    font-size: calc(var(--base-font-size) * 0.5);
   }
   hr {
     font-size: 1;
