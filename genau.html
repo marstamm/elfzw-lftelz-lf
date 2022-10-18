@@ -31,8 +31,8 @@
 
     const now = new Date();
 
-    const nextHour = (now.getHours() + 1) % 12;
-    const currentHour = (now.getHours()) % 12;
+    let nextHour = (now.getHours() + 1) % 12;
+    let currentHour = (now.getHours()) % 12;
     let currentSeconds = now.getMinutes() * 60 + now.getSeconds();
 
     if(nextHour === 0) { nextHour = 12 }
