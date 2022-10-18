@@ -1,0 +1,95 @@
+<div id="wort">Punkt</div>
+<div id="minutes">
+  <div id="bruch">
+    <div id="zähler"></div>
+    <hr />
+    <div id="nenner"></div>
+  </div>
+</div>
+<div id="hours"></div>
+
+<script>
+
+  const updateTitle = (punkt) => {
+    let text = ""
+    if(!punkt) { 
+      if(wort.style.display !== "none") {
+        text = wort.innerText;
+      }
+
+      document.title = text + zähler.innerText + "/" + nenner.innerText + " " + hours.innerText
+    } else {
+      document.title = "Punkt " + hours.innerText
+    }
+  }
+
+  const calculateTime = () => {
+    const gcd = function (a, b) {
+      if (b === 0) return a;
+      return gcd(b, a % b);
+    };
+
+    const now = new Date();
+
+    const nextHour = (now.getHours() + 1) % 12;
+    const currentHour = (now.getHours()) % 12;
+    let currentSeconds = now.getMinutes() * 60 + now.getSeconds();
+
+    if(nextHour === 0) { nextHour = 12 }
+    if(currentHour === 0) { currentHour = 12 }
+
+    if(currentSeconds === 0) {
+      bruch.style.display = "none";
+      wort.style.display = "block";
+
+      wort.innerText = "Punkt";
+      hours.innerText = nextHour - 1
+
+      updateTitle(true);
+      return;
+    }
+
+    bruch.style.display = "block";
+    wort.style.display = "none";
+
+    let teiler = gcd(currentSeconds, 3600);
+
+    if(teiler === 1) {
+      wort.style.display = "block";
+      wort.innerText = "1 vor\u00a0";
+
+      currentSeconds++;
+      teiler = gcd(currentSeconds, 3600);
+    }
+
+    zähler.innerText = currentSeconds / teiler === 1 ? "\u00a0" : currentSeconds / teiler;
+    nenner.innerText = 3600 / teiler
+    hours.innerText = nextHour;
+
+    updateTitle();
+  }
+
+  calculateTime();
+  setInterval(calculateTime, 100);
+</script>
+
+<style>
+  body {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    font-size: 35vh;
+    align-items: center;
+  }
+  #hours {
+    font-size: 70vh;
+  }
+  #wort {
+    font-size: 12.5vh;
+  }
+  hr {
+    font-size: 1;
+  }
+</style>
